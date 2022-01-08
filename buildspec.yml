@@ -1,0 +1,25 @@
+version: 0.2
+
+env:
+  variables:
+    AWS_REGION: "us-east-2"
+
+phases:
+  pre_build:
+    commands:
+      - echo logging in to ecr...
+      - >
+        aws ecr get-login-password --region $AWS_REGION \
+          | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+      - aws s3 cp s3://tf-serve-bert/bertbc.zip ./
+      - unzip ./bertbc.zip 
+  build:
+    commands:
+      - echo building images...
+      - docker-compose -f docker-compose.prod.yml up -d --build
+      - docker tag bertbc_api:latest $AWS_ACCOUNT_ID.dkr.ecr.us-east-2.amazonaws.com/bertbc_api:latest
+      - docker tag bertbc_tf_serve:latest $AWS_ACCOUNT_ID.dkr.ecr.us-east-2.amazonaws.com/bertbc_tf_serve:latest
+  post_build:
+    commands:
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.us-east-2.amazonaws.com/bertbc_api:latest
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.us-east-2.amazonaws.com/bertbc_tf_serve:latest
