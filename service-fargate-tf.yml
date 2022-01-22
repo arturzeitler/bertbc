@@ -37,6 +37,15 @@ Parameters:
     Type: Number
     Default: 1
     Description: How many copies of the service task to run
+  MinServicesCount:
+    Type: Number
+    Default: 1
+    Description: Parameter for Autoscaling
+  MaxServicesCount:
+    Type: Number
+    Default: 2
+    Description: Parameter for Autoscaling
+
   Role:
     Type: String
     Default: ""
@@ -113,8 +122,8 @@ Resources:
           SecurityGroups:
             - Fn::ImportValue: !Sub ${EnvironmentName}:ContainerSecurityGroup
           Subnets:
-            - Fn::ImportValue: !Sub ${EnvironmentName}:PublicSubnetOne
-            - Fn::ImportValue: !Sub ${EnvironmentName}:PublicSubnetTwo
+            - Fn::ImportValue: !Sub ${EnvironmentName}:PrivateSubnetOne
+            - Fn::ImportValue: !Sub ${EnvironmentName}:PrivateSubnetTwo
       TaskDefinition: !Ref 'TaskDefinition'
       LoadBalancers:
         - ContainerName: !Ref 'ServiceName'
@@ -155,5 +164,34 @@ Resources:
         - Field: path-pattern
           Values: [!Ref 'Path']
       ListenerArn:
-        Fn::ImportValue: !Sub ${EnvironmentName}:PublicListener
+        Fn::ImportValue: !Sub ${EnvironmentName}:PrivateListener
       Priority: !Ref 'Priority'
+
+  AutoScalingTarget:
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+    Properties:
+      MaxCapacity: !Ref MaxServicesCount
+      MinCapacity: !Ref MinServicesCount
+      ResourceId: !Join
+        - '/'
+        - - service
+          - Fn::ImportValue: !Sub ${EnvironmentName}:ClusterName
+          - !GetAtt Service.Name
+      RoleARN: 
+        Fn::ImportValue: !Sub ${EnvironmentName}:AutoscalingRole
+      ScalableDimension: ecs:service:DesiredCount
+      ServiceNamespace: ecs
+
+  CPUAutoScalingPolicy:
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Properties:
+      PolicyName: CPUAutoScalingPolicy
+      PolicyType: TargetTrackingScaling
+      ScalingTargetId: !Ref AutoScalingTarget
+      TargetTrackingScalingPolicyConfiguration:
+        DisableScaleIn: False
+        TargetValue: 50 
+        ScaleInCooldown: 60
+        ScaleOutCooldown: 60
+        PredefinedMetricSpecification: 
+          PredefinedMetricType: ECSServiceAverageCPUUtilization
