@@ -20,17 +20,10 @@ tests:
 	docker-compose run --rm --no-deps --entrypoint=pytest api /tests/
 
 create-vpc:
-	aws cloudformation create-stack --stack-name vpc-public --template-body file://cf-public-vpc.yml --parameters ParameterKey=EnvironmentName,ParameterValue=production --on-failure DO_NOTHING
+	aws cloudformation create-stack --stack-name vpc --template-body file://cf-public-private-vpc.yml --parameters ParameterKey=EnvironmentName,ParameterValue=production --on-failure DO_NOTHING
 
 delete-vpc:
-	aws cloudformation delete-stack --stack-name vpc-public
-
-create-vpc-private:
-	aws cloudformation create-stack --stack-name vpc-private --template-body file://cf-private-vpc.yml --parameters ParameterKey=EnvironmentName,ParameterValue=production --on-failure DO_NOTHING
-
-delete-vpc-private:
-	aws cloudformation delete-stack --stack-name vpc-private
-
+	aws cloudformation delete-stack --stack-name vpc
 
 create-ecscluster:
 	aws cloudformation create-stack --stack-name ecs-cluster --template-body file://cf-ecs-cluster.yml --parameters ParameterKey=EnvironmentName,ParameterValue=production --on-failure DO_NOTHING --capabilities CAPABILITY_IAM
