@@ -1,4 +1,4 @@
-# Classify news with BERT and tensorflow serving and AWS
+# Classify news with BERT, tensorflow serving, and AWS
 
 ## Summary
 
