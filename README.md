@@ -1,7 +1,5 @@
 # Classify news with BERT and tensorflow serving and AWS
 
-## TO BE CONTINUED
-
 ## Summary
 
 ![plot](./bertbc.png)
