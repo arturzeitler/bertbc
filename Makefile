@@ -55,8 +55,8 @@ create-tf-service:
 delete-tf-service:
 	aws cloudformation delete-stack --stack-name ecs-tf
 
-post-local-api:
+post-aws-api:
 	curl -H 'Content-Type: application/json' -d '{"input": "Germany have beaten England again in football by 3-0"}' -X POST http://alb-p-Publi-9ZE7G20ZNCEW-902401373.us-east-2.elb.amazonaws.com/predict
 
-post-local-api-bad:
+post-aws-api-bad:
 	curl -H 'Content-Type: application/json' -d '{"input": }' -X POST http://alb-PublicL-1NFGJVJW2BKS4-904981647.us-east-2.elb.amazonaws.com/predict
