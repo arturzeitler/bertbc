@@ -65,13 +65,6 @@ make post-local-api
 make post-aws-api
 ```
 
-## Uploading model-tar file to S3
-```
-make create-bucket # globally unique name
-make tar-model
-make upload-object
-```
-
 ## Deletion of AWS resources
 ```
 make delete-vpc
