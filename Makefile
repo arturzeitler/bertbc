@@ -56,7 +56,7 @@ delete-tf-service:
 	aws cloudformation delete-stack --stack-name ecs-tf
 
 post-aws-api:
-	curl -H 'Content-Type: application/json' -d '{"input": "Germany have beaten England again in football by 3-0"}' -X POST http://alb-p-Publi-9ZE7G20ZNCEW-902401373.us-east-2.elb.amazonaws.com/predict
+	curl -H 'Content-Type: application/json' -d '{"input": "Dubois - who won 37 bouts as an amateur with three defeats - will make her professional debut against Vaida Masiokaite from Lithuania at the Motorpoint Arena in Cardiff on Saturday"}' -X POST http://alb-p-Publi-16J22JJHGE7I1-1885730180.us-east-2.elb.amazonaws.com/predict
 
 post-aws-api-bad:
 	curl -H 'Content-Type: application/json' -d '{"input": }' -X POST http://alb-PublicL-1NFGJVJW2BKS4-904981647.us-east-2.elb.amazonaws.com/predict
