@@ -30,14 +30,10 @@ class Predict(Resource):
 
     def post(self):
         log.info("POST request received")
-        try:
-            if request.json != None:
-                posted = request.json
-                log.info(posted)
-            else:
-                raise ValueError 
-        except ValueError:
+        if request.json == None:
             return {'status': 'No JSON provided'}, HTTPStatus.BAD_REQUEST
+        posted = request.json
+        log.info(posted)
         try:
             if posted['input'] != None:
                 log.info('input key found in json')
@@ -45,17 +41,13 @@ class Predict(Resource):
                 raise KeyError
         except KeyError:
             return {'status': 'No "input" key in JSON'}, HTTPStatus.BAD_REQUEST
-        try:
-            if isinstance(posted['input'], str) == True:
-                log.info('Provided input is indeed of type String')
-            else:
-                raise TypeError
-        except TypeError:
+        if isinstance(posted['input'], str) == False:
+            log.info('Provided input is indeed of type String')
             return {'status': '"input" key does not return string'}, HTTPStatus.BAD_REQUEST
         jsn = json.dumps({
-                'signature_name': 'serving_default',
-                'inputs': posted,
-            })
+            'signature_name': 'serving_default',
+            'inputs': posted,
+        })
         response = requests.post(SERVER_URL, data=jsn)
         log.info("POST request sent")
         response.raise_for_status()
