@@ -24,7 +24,8 @@ Furthermore, CodeBuild task execution role requires the AmazonEC2ContainerRegist
 
 ## [Colab Notebook](https://colab.research.google.com/drive/1URSlpijdpmGhWpGeaQallorAJSSWR0DI?usp=sharing)
 
-A zip of the model can be downloaded [here](https://drive.google.com/file/d/1jmpYCsFRkQbcLTb-SXG_Twip76--7jt7/view?usp=sharing).
+You can train and download the model yourself with Colab or download 
+a zip of the model from google drive [here](https://drive.google.com/file/d/1jmpYCsFRkQbcLTb-SXG_Twip76--7jt7/view?usp=sharing).
 The unzipped model folder has to be placed at the project's root directory.
 
 ## Two Examples
