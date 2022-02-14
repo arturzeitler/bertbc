@@ -22,8 +22,10 @@ Since the model is too big be included in the repo, CodeBuild downloads it from 
 
 Furthermore, CodeBuild task execution role requires the AmazonEC2ContainerRegistryPowerUser policy to interact with ECR.
 
-## Colab Notebook
-https://colab.research.google.com/drive/1URSlpijdpmGhWpGeaQallorAJSSWR0DI?usp=sharing
+## [Colab Notebook](https://colab.research.google.com/drive/1URSlpijdpmGhWpGeaQallorAJSSWR0DI?usp=sharing)
+
+A zip of the model can be downloaded [here](https://drive.google.com/file/d/1jmpYCsFRkQbcLTb-SXG_Twip76--7jt7/view?usp=sharing).
+The unzipped model folder has to be placed at the project's root directory.
 
 ## Two Examples
 
